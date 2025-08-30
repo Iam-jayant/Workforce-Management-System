@@ -3,6 +3,8 @@ import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
+import locationReducer from './locationSlice';
+import jobReducer from './jobSlice';
 
 // Persist configuration
 const persistConfig = {
@@ -13,7 +15,9 @@ const persistConfig = {
 
 // Root reducer
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  location: locationReducer,
+  jobs: jobReducer
 });
 
 // Persisted reducer

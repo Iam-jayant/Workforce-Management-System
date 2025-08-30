@@ -14,6 +14,8 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from '../../store/authSlice';
 import { RootState, AppDispatch } from '../../store/store';
+import { LocationTracker } from '../../components/location/LocationTracker';
+import { JobList } from '../../components/jobs/JobList';
 
 export const TechnicianDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,31 +42,13 @@ export const TechnicianDashboard: React.FC = () => {
         </Card.Content>
       </Card>
 
+      {/* Job List Component */}
       <Card style={styles.card}>
-        <Card.Content>
-          <View style={styles.cardHeader}>
-            <Title>Today's Jobs</Title>
-            <Badge size={24}>3</Badge>
-          </View>
-          <List.Item
-            title="Install Cable Connection"
-            description="123 Main St • Due: 2:00 PM"
-            left={(props) => <List.Icon {...props} icon="cable-data" />}
-            right={(props) => <List.Icon {...props} icon="chevron-right" />}
-          />
-          <Divider />
-          <List.Item
-            title="Repair Internet Service"
-            description="456 Oak Ave • Due: 4:30 PM"
-            left={(props) => <List.Icon {...props} icon="wifi-strength-2" />}
-            right={(props) => <List.Icon {...props} icon="chevron-right" />}
-          />
-          <Divider />
-          <List.Item
-            title="Equipment Maintenance"
-            description="789 Pine St • Due: 6:00 PM"
-            left={(props) => <List.Icon {...props} icon="tools" />}
-            right={(props) => <List.Icon {...props} icon="chevron-right" />}
+        <Card.Title title="Today's Jobs" />
+        <Card.Content style={styles.jobListContainer}>
+          <JobList 
+            technicianId={user?.uid || ''} 
+            showActions={true}
           />
         </Card.Content>
       </Card>
@@ -91,15 +75,16 @@ export const TechnicianDashboard: React.FC = () => {
         </Card.Content>
       </Card>
 
+      {/* Location Tracking Component */}
+      <LocationTracker 
+        userId={user?.uid || ''} 
+        showControls={true}
+        autoStart={true}
+      />
+
       <Card style={styles.card}>
         <Card.Content>
           <Title>Work Status</Title>
-          <List.Item
-            title="Current Location"
-            description="Downtown Service Area"
-            left={(props) => <List.Icon {...props} icon="map-marker" />}
-          />
-          <Divider />
           <List.Item
             title="Hours Today"
             description="6.5 hours logged"
@@ -201,5 +186,9 @@ const styles = StyleSheet.create({
   actionButton: {
     flex: 1,
     marginHorizontal: 8
+  },
+  jobListContainer: {
+    maxHeight: 400,
+    padding: 0
   }
 });
